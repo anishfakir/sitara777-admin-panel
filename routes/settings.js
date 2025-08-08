@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { db } = require('../config/firebase');
 const admin = require('firebase-admin');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Settings management page with complete Firebase integration
 router.get('/', async (req, res) => {
