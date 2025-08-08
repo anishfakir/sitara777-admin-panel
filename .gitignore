@@ -1,0 +1,27 @@
+node_modules
+.env
+*.log
+.DS_Store
+
+# Firebase credentials
+*firebase-adminsdk*.json
+*service-account*.json
+
+# API keys and secrets
+config/secrets.js
+config/private-keys.json
+
+# Build outputs
+dist/
+build/
+.next/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+ehthumbs.db

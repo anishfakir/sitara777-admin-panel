@@ -1,0 +1,225 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/admin_users/$(request.auth.uid));
+    }
+    
+    function isValidUser() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    // Admin users collection - only admins can read/write
+    match /admin_users/{userId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Users collection
+    match /users/{userId} {
+      // Users can read and update their own data
+      allow read, update: if isOwner(userId);
+      
+      // Users can create their profile during registration
+      allow create: if isOwner(userId) && 
+                    request.resource.data.uid == request.auth.uid &&
+                    request.resource.data.phoneNumber is string &&
+                    request.resource.data.name is string;
+      
+      // Admins can read and update any user
+      allow read, write: if isAdmin();
+      
+      // Allow reads for withdrawal processing (when user data is needed)
+      allow read: if isAuthenticated() && 
+                  request.auth.uid in resource.data.allowedReaders;
+    }
+
+    // Wallets collection
+    match /wallets/{userId} {
+      // Users can read their own wallet
+      allow read: if isOwner(userId);
+      
+      // Only system/admin can create and update wallets
+      allow create, update: if isAdmin();
+      
+      // Allow wallet updates for withdrawal processing
+      allow update: if isAuthenticated() && 
+                   request.resource.data.userId == userId &&
+                   request.resource.data.keys().hasAll(['balance', 'updatedAt']);
+    }
+
+    // Withdrawals collection
+    match /withdrawals/{withdrawalId} {
+      // Users can create withdrawal requests for themselves
+      allow create: if isAuthenticated() && 
+                   request.resource.data.userId == request.auth.uid &&
+                   request.resource.data.status == 'pending' &&
+                   request.resource.data.amount is number &&
+                   request.resource.data.amount > 0 &&
+                   request.resource.data.upiId is string &&
+                   request.resource.data.userName is string;
+      
+      // Users can read their own withdrawal requests
+      allow read: if isAuthenticated() && 
+                 resource.data.userId == request.auth.uid;
+      
+      // Admins can read and update all withdrawal requests
+      allow read, update: if isAdmin();
+      
+      // Only admins can delete withdrawal requests
+      allow delete: if isAdmin();
+    }
+
+    // Transactions collection
+    match /transactions/{transactionId} {
+      // Users can read their own transactions
+      allow read: if isAuthenticated() && 
+                 resource.data.userId == request.auth.uid;
+      
+      // Only system/admin can create and update transactions
+      allow create, update: if isAdmin();
+      
+      // Allow transaction creation for withdrawal requests
+      allow create: if isAuthenticated() && 
+                   request.resource.data.userId == request.auth.uid &&
+                   request.resource.data.type in ['withdrawal_request'] &&
+                   request.resource.data.amount is number;
+      
+      // Admins can read and manage all transactions
+      allow read, write: if isAdmin();
+    }
+
+    // Bazaars/Markets collection
+    match /bazaars/{bazaarId} {
+      // Everyone can read bazaar information
+      allow read: if true;
+      
+      // Only admins can create, update, or delete bazaars
+      allow write: if isAdmin();
+    }
+
+    // Game results collection
+    match /game_results/{resultId} {
+      // Everyone can read game results
+      allow read: if true;
+      
+      // Only admins can create, update, or delete results
+      allow write: if isAdmin();
+    }
+
+    // Bets collection
+    match /bets/{betId} {
+      // Users can create bets for themselves
+      allow create: if isAuthenticated() && 
+                   request.resource.data.userId == request.auth.uid &&
+                   request.resource.data.amount is number &&
+                   request.resource.data.amount > 0;
+      
+      // Users can read their own bets
+      allow read: if isAuthenticated() && 
+                 resource.data.userId == request.auth.uid;
+      
+      // Admins can read and manage all bets
+      allow read, write: if isAdmin();
+    }
+
+    // Notifications collection
+    match /notifications/{notificationId} {
+      // Users can read notifications targeted to them
+      allow read: if isAuthenticated() && 
+                 (resource.data.targetUsers == 'all' || 
+                  request.auth.uid in resource.data.targetUsers);
+      
+      // Only admins can create, update, or delete notifications
+      allow write: if isAdmin();
+    }
+
+    // Settings collection
+    match /settings/{settingId} {
+      // Everyone can read public settings
+      allow read: if resource.data.public == true;
+      
+      // Only admins can read private settings and manage all settings
+      allow read, write: if isAdmin();
+    }
+
+    // Analytics collection (for admin dashboard)
+    match /analytics/{docId} {
+      // Only admins can read and write analytics data
+      allow read, write: if isAdmin();
+    }
+
+    // Chat/Support collection
+    match /support_chats/{chatId} {
+      // Users can read and create messages in their own chats
+      allow read, create: if isAuthenticated() && 
+                         resource.data.userId == request.auth.uid;
+      
+      // Admins can read and manage all support chats
+      allow read, write: if isAdmin();
+    }
+
+    // File uploads collection
+    match /uploads/{uploadId} {
+      // Users can create uploads for themselves (KYC documents, etc.)
+      allow create: if isAuthenticated() && 
+                   request.resource.data.userId == request.auth.uid;
+      
+      // Users can read their own uploads
+      allow read: if isAuthenticated() && 
+                 resource.data.userId == request.auth.uid;
+      
+      // Admins can read and manage all uploads
+      allow read, write: if isAdmin();
+    }
+
+    // Referrals collection
+    match /referrals/{referralId} {
+      // Users can read referrals where they are the referrer or referee
+      allow read: if isAuthenticated() && 
+                 (resource.data.referrerId == request.auth.uid || 
+                  resource.data.refereeId == request.auth.uid);
+      
+      // Users can create referrals for themselves
+      allow create: if isAuthenticated() && 
+                   request.resource.data.referrerId == request.auth.uid;
+      
+      // Admins can read and manage all referrals
+      allow read, write: if isAdmin();
+    }
+
+    // Audit logs collection
+    match /audit_logs/{logId} {
+      // Only admins can read audit logs
+      allow read: if isAdmin();
+      
+      // System can create audit logs
+      allow create: if true;
+    }
+
+    // Real-time presence collection
+    match /presence/{userId} {
+      // Users can manage their own presence
+      allow read, write: if isOwner(userId);
+      
+      // Admins can read all presence data
+      allow read: if isAdmin();
+    }
+
+    // Default deny rule for any unmatched paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

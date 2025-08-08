@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitara777 Admin Panel - Professional Satka Matka Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Section -->
+    <div id="loginSection" class="login-container">
+        <div class="login-box">
+            <div class="text-center mb-4">
+                <div class="logo-container mb-3">
+                    <i class="fas fa-crown fa-3x text-gradient"></i>
+                </div>
+                                   <h2>Sitara777 Admin Panel</h2>
+                   <p class="text-muted">Professional Satka Matka Management System</p>
+                <div class="firebase-status mt-2">
+                    <small class="text-muted">
+                        <i class="fas fa-database me-1"></i>
+                        <span id="firebaseStatus">Connecting to Firebase...</span>
+                    </small>
+                </div>
+            </div>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input type="text" class="form-control" id="adminUsername" placeholder="Enter Username" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" class="form-control" id="adminPassword" placeholder="Enter Password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i> Login to Admin Panel
+                </button>
+            </form>
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    Secure Admin Access with Firebase
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="d-none">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="d-flex align-items-center justify-content-center">
+                    <i class="fas fa-crown fa-2x me-2"></i>
+                    <h4>Sitara777</h4>
+                </div>
+                <small class="text-white-50">Admin Control Panel</small>
+                <div class="firebase-indicator mt-2">
+                    <small class="text-success">
+                        <i class="fas fa-circle me-1"></i>
+                        <span id="firebaseConnectionStatus">Firebase Connected</span>
+                    </small>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link" data-section="users">
+                    <i class="fas fa-users"></i> User Management
+                </a>
+                <a href="#" class="nav-link" data-section="wallet">
+                    <i class="fas fa-wallet"></i> Wallet Control
+                </a>
+                <a href="#" class="nav-link" data-section="results">
+                    <i class="fas fa-trophy"></i> Game Results
+                </a>
+                <a href="#" class="nav-link" data-section="charts">
+                    <i class="fas fa-chart-line"></i> Charts & History
+                </a>
+                <a href="#" class="nav-link" data-section="withdrawals">
+                    <i class="fas fa-money-bill-wave"></i> Withdrawals
+                </a>
+                <a href="#" class="nav-link" data-section="bazaar">
+                    <i class="fas fa-clock"></i> Bazaar Settings
+                </a>
+                <a href="#" class="nav-link" data-section="notifications">
+                    <i class="fas fa-bell"></i> Notifications
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logoutBtn" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="topbar">
+                <div class="d-flex align-items-center">
+                    <h3 id="pageTitle">Dashboard</h3>
+                    <span class="badge bg-success ms-3 pulse">Live</span>
+                    <span class="badge bg-info ms-2" id="firebaseRealtimeStatus">
+                        <i class="fas fa-broadcast-tower me-1"></i>Real-time
+                    </span>
+                </div>
+                <div class="admin-info">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-circle fa-lg me-2"></i>
+                        <span>Welcome, Admin</span>
+                        <span class="badge bg-success ms-2">Online</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="content-section active">
+                    <div class="section-header">
+                        <h4>Dashboard Overview</h4>
+                        <div class="section-actions">
+                            <button class="btn btn-outline-primary btn-sm" onclick="refreshDashboard()">
+                                <i class="fas fa-sync-alt me-1"></i> Refresh
+                            </button>
+                            <button class="btn btn-outline-success btn-sm ms-2" onclick="toggleRealtime()">
+                                <i class="fas fa-broadcast-tower me-1"></i> Toggle Real-time
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistics Cards -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-primary">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 id="totalUsers">0</h4>
+                                    <p>Total Users</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-success">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 id="totalBalance">₹0</h4>
+                                    <p>Total Balance</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 id="activeBazaars">0</h4>
+                                    <p>Active Bazaars</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon bg-danger">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 id="pendingWithdrawals">0</h4>
+                                    <p>Pending Withdrawals</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <button class="btn btn-primary w-100" onclick="showSection('results')">
+                                                <i class="fas fa-plus me-2"></i>Add Result
+                                            </button>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <button class="btn btn-success w-100" onclick="showSection('wallet')">
+                                                <i class="fas fa-wallet me-2"></i>Wallet Control
+                                            </button>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <button class="btn btn-warning w-100" onclick="showSection('withdrawals')">
+                                                <i class="fas fa-money-bill-wave me-2"></i>Withdrawals
+                                            </button>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <button class="btn btn-info w-100" onclick="showSection('notifications')">
+                                                <i class="fas fa-bell me-2"></i>Notifications
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-chart-pie me-2"></i>Today's Summary</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-6 mb-3">
+                                            <div class="border-end">
+                                                <h3 class="text-success">₹25,000</h3>
+                                                <small class="text-muted">Total Earnings</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h3 class="text-primary">150</h3>
+                                            <small class="text-muted">Active Users</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <h3 class="text-warning">12</h3>
+                                            <small class="text-muted">Pending Requests</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <h3 class="text-info">8</h3>
+                                            <small class="text-muted">Live Bazaars</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Management Section -->
+                <div id="users" class="content-section">
+                    <div class="section-header">
+                        <h4>User Management</h4>
+                        <div class="section-actions">
+                            <div class="input-group" style="max-width: 300px;">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <input type="text" id="userSearch" class="form-control" placeholder="Search by mobile number...">
+                            </div>
+                            <button class="btn btn-primary btn-sm ms-2" onclick="addNewUser()">
+                                <i class="fas fa-plus me-1"></i> Add User
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+                                    <th>Join Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Wallet Control Section -->
+                <div id="wallet" class="content-section">
+                    <div class="section-header">
+                        <h4>Wallet Control</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-exchange-alt me-2"></i>Add/Remove Balance</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="walletForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Select User</label>
+                                            <select class="form-control" id="walletUserId" required>
+                                                <option value="">Select User</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Transaction Type</label>
+                                            <select class="form-control" id="transactionType" required>
+                                                <option value="credit">Credit (Add Money)</option>
+                                                <option value="debit">Debit (Remove Money)</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Amount (₹)</label>
+                                            <input type="number" class="form-control" id="transactionAmount" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Remark</label>
+                                            <input type="text" class="form-control" id="transactionRemark" placeholder="Admin adjustment">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-check me-2"></i>Process Transaction
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-history me-2"></i>Recent Transactions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recentTransactions">
+                                        <!-- Recent transactions will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Results Section -->
+                <div id="results" class="content-section">
+                    <div class="section-header">
+                        <h4>Game Result Entry</h4>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="resultForm">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Bazaar</label>
+                                        <select class="form-control" id="resultBazaar" required>
+                                            <option value="">Select Bazaar</option>
+                                            <option value="Sitara777">Sitara777</option>
+                                            <option value="Mumbai Market">Mumbai Market</option>
+                                            <option value="Pune Market">Pune Market</option>
+                                            <option value="Nagpur Market">Nagpur Market</option>
+                                            <option value="Aurangabad Market">Aurangabad Market</option>
+                                            <option value="Nashik Market">Nashik Market</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Date</label>
+                                        <input type="date" class="form-control" id="resultDate" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Time</label>
+                                        <input type="time" class="form-control" id="resultTime" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Jodi</label>
+                                        <input type="text" class="form-control" id="resultJodi" placeholder="XX" maxlength="2">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Single Panna</label>
+                                        <input type="text" class="form-control" id="resultSinglePanna" placeholder="XXX" maxlength="3">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Double Panna</label>
+                                        <input type="text" class="form-control" id="resultDoublePanna" placeholder="XXX" maxlength="3">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Motor</label>
+                                        <input type="text" class="form-control" id="resultMotor" placeholder="XX" maxlength="2">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fas fa-save me-2"></i>Save Result
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts & History Section -->
+                <div id="charts" class="content-section">
+                    <div class="section-header">
+                        <h4>Charts & History</h4>
+                        <div class="section-actions">
+                            <select class="form-control me-2" id="chartBazaar">
+                                <option value="">All Bazaars</option>
+                                <option value="Sitara777">Sitara777</option>
+                                <option value="Mumbai Market">Mumbai Market</option>
+                                <option value="Pune Market">Pune Market</option>
+                                <option value="Nagpur Market">Nagpur Market</option>
+                            </select>
+                            <input type="date" class="form-control" id="chartDate">
+                            <button class="btn btn-primary btn-sm ms-2">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Bazaar</th>
+                                    <th>Jodi</th>
+                                    <th>Single Panna</th>
+                                    <th>Double Panna</th>
+                                    <th>Motor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="chartsTableBody">
+                                <!-- Chart data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Withdrawals Section -->
+                <div id="withdrawals" class="content-section">
+                    <div class="section-header">
+                        <h4>Withdrawal Management</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Phone</th>
+                                    <th>Amount</th>
+                                    <th>Bank Details</th>
+                                    <th>Request Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="withdrawalsTableBody">
+                                <!-- Withdrawal requests will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bazaar Settings Section -->
+                <div id="bazaar" class="content-section">
+                    <div class="section-header">
+                        <h4>Bazaar Settings</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Bazaar Name</th>
+                                            <th>Open Time</th>
+                                            <th>Close Time</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bazaarTableBody">
+                                        <!-- Bazaar settings will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-cog me-2"></i>Update Bazaar</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="bazaarForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Bazaar Name</label>
+                                            <input type="text" class="form-control" id="bazaarName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Open Time</label>
+                                            <input type="time" class="form-control" id="bazaarOpenTime" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Close Time</label>
+                                            <input type="time" class="form-control" id="bazaarCloseTime" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="bazaarActive">
+                                                <label class="form-check-label">Active</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-save me-2"></i>Update Bazaar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notifications" class="content-section">
+                    <div class="section-header">
+                        <h4>Push Notifications</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-paper-plane me-2"></i>Send Notification</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="notificationForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Title</label>
+                                            <input type="text" class="form-control" id="notificationTitle" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Message</label>
+                                            <textarea class="form-control" id="notificationMessage" rows="4" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Target</label>
+                                            <select class="form-control" id="notificationTarget">
+                                                <option value="all">All Users</option>
+                                                <option value="active">Active Users Only</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-paper-plane me-2"></i>Send Notification
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-history me-2"></i>Recent Notifications</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recentNotifications">
+                                        <!-- Recent notifications will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay d-none">
+        <div class="text-center">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-white">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+        import { getStorage } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCTnn-lImPW0tXooIMVkzWQXBoOKN9yNbw",
+            authDomain: "sitara777admin.firebaseapp.com",
+            projectId: "sitara777admin",
+            storageBucket: "sitara777admin.firebasestorage.app",
+            messagingSenderId: "211927307499",
+            appId: "1:211927307499:web:65cdd616f9712b203cdaae",
+            measurementId: "G-RB5C24JE55"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Make Firebase available globally
+        window.firebaseApp = app;
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.firebaseStorage = storage;
+        window.firebaseAnalytics = analytics;
+
+        // Update Firebase status
+        document.getElementById('firebaseStatus').textContent = 'Firebase Connected';
+        document.getElementById('firebaseStatus').className = 'text-success';
+        document.getElementById('firebaseConnectionStatus').textContent = 'Firebase Connected';
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script>
+    <script src="api/config.js"></script>
+    <script src="api/services.js"></script>
+    <script src="firebase-init.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Management - Sitara777 Admin Panel</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-crown text-danger"></i> Sitara777</h3>
+                <p class="text-muted">Admin Panel</p>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="/dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/bazaar">
+                        <i class="fas fa-store"></i>
+                        Bazaar Management
+                    </a>
+                </li>
+                <li>
+                    <a href="/results">
+                        <i class="fas fa-chart-line"></i>
+                        Game Results
+                    </a>
+                </li>
+                <li>
+                    <a href="/users">
+                        <i class="fas fa-users"></i>
+                        Users Management
+                    </a>
+                </li>
+                <li>
+                    <a href="/withdrawals">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Withdrawal Requests
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/payments">
+                        <i class="fas fa-credit-card"></i>
+                        Payment Management
+                    </a>
+                </li>
+                <li>
+                    <a href="/notifications">
+                        <i class="fas fa-bell"></i>
+                        Push Notifications
+                    </a>
+                </li>
+                <li>
+                    <a href="/settings">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Header -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-outline-danger">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="navbar-nav ms-auto">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                                <%= user ? user.username : 'Admin' %>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/auth/change-password">
+                                    <i class="fas fa-key"></i> Change Password
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/auth/logout">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2><i class="fas fa-credit-card text-danger"></i> Payment Management</h2>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#uploadQRModal">
+                                <i class="fas fa-upload"></i> Upload QR Code
+                            </button>
+                        </div>
+
+                        <!-- Payment Methods Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-qrcode"></i> Payment Methods (QR Codes)</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <% paymentMethods.forEach(function(method) { %>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <img src="<%= method.qrCodeUrl %>" alt="QR Code" class="img-fluid mb-3" style="max-width: 200px;">
+                                                        <h6><%= method.name %></h6>
+                                                        <p class="text-muted"><%= method.type.toUpperCase() %></p>
+                                                        <% if (method.upiId) { %>
+                                                        <p class="text-muted">UPI: <%= method.upiId %></p>
+                                                        <% } %>
+                                                        <div class="btn-group" role="group">
+                                                            <button class="btn btn-sm btn-outline-warning" onclick="togglePaymentMethod('<%= method.id %>')">
+                                                                <i class="fas fa-toggle-on"></i> <%= method.isActive ? 'Disable' : 'Enable' %>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-outline-danger" onclick="deletePaymentMethod('<%= method.id %>')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Manual Payments Section -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-hand-holding-usd"></i> Manual Payment Verifications</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>User</th>
+                                                        <th>Amount</th>
+                                                        <th>UPI ID</th>
+                                                        <th>Screenshot</th>
+                                                        <th>Status</th>
+                                                        <th>Requested</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% manualPayments.forEach(function(payment) { %>
+                                                    <tr>
+                                                        <td>
+                                                            <strong><%= payment.userName || 'N/A' %></strong>
+                                                            <br><small class="text-muted">ID: <%= payment.userId %></small>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge bg-success">₹<%= payment.amount.toLocaleString() %></span>
+                                                        </td>
+                                                        <td><%= payment.upiId || 'N/A' %></td>
+                                                        <td>
+                                                            <% if (payment.screenshot) { %>
+                                                            <a href="<%= payment.screenshot %>" target="_blank" class="btn btn-sm btn-outline-info">
+                                                                <i class="fas fa-image"></i> View
+                                                            </a>
+                                                            <% } else { %>
+                                                            <span class="text-muted">No Screenshot</span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge <%= payment.status === 'pending' ? 'bg-warning' : (payment.status === 'verified' ? 'bg-success' : 'bg-danger') %>">
+                                                                <%= payment.status.charAt(0).toUpperCase() + payment.status.slice(1) %>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <%= payment.createdAt ? (payment.createdAt.toDate ? new Date(payment.createdAt.toDate()).toLocaleString() : new Date(payment.createdAt).toLocaleString()) : 'N/A' %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (payment.status === 'pending') { %>
+                                                            <div class="btn-group" role="group">
+                                                                <button class="btn btn-sm btn-outline-success" onclick="verifyPayment('<%= payment.id %>')">
+                                                                    <i class="fas fa-check"></i> Verify
+                                                                </button>
+                                                                <button class="btn btn-sm btn-outline-danger" onclick="rejectPayment('<%= payment.id %>')">
+                                                                    <i class="fas fa-times"></i> Reject
+                                                                </button>
+                                                            </div>
+                                                            <% } else { %>
+                                                            <span class="text-muted">Processed</span>
+                                                            <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload QR Code Modal -->
+    <div class="modal fade" id="uploadQRModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-upload"></i> Upload QR Code</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="uploadQRForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Payment Method Name</label>
+                            <input type="text" class="form-control" name="name" required placeholder="e.g., UPI QR Code">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Payment Type</label>
+                            <select class="form-control" name="type" required>
+                                <option value="">Select Type</option>
+                                <option value="upi">UPI</option>
+                                <option value="bank">Bank Transfer</option>
+                                <option value="wallet">Wallet</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">UPI ID (Optional)</label>
+                            <input type="text" class="form-control" name="upiId" placeholder="e.g., user@upi">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">QR Code Image</label>
+                            <input type="file" class="form-control" name="qrCode" accept="image/*" required>
+                            <small class="text-muted">Upload QR code image (PNG, JPG, JPEG)</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Upload QR Code</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verify Payment Modal -->
+    <div class="modal fade" id="verifyPaymentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-check"></i> Verify Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="verifyPaymentForm">
+                    <div class="modal-body">
+                        <input type="hidden" name="paymentId" id="verifyPaymentId">
+                        <div class="mb-3">
+                            <label class="form-label">Verified Amount</label>
+                            <input type="number" class="form-control" name="amount" id="verifyAmount" required min="1">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">Verify Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <script>
+        // Upload QR Code Form
+        document.getElementById('uploadQRForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('/payments/upload-qr', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    location.reload();
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('danger', 'Error uploading QR code');
+            });
+        });
+
+        // Toggle Payment Method Status
+        function togglePaymentMethod(methodId) {
+            fetch('/payments/toggle-status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ methodId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    location.reload();
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('danger', 'Error toggling payment method status');
+            });
+        }
+
+        // Delete Payment Method
+        function deletePaymentMethod(methodId) {
+            if (confirm('Are you sure you want to delete this payment method?')) {
+                fetch('/payments/delete-method', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ methodId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', data.message);
+                        location.reload();
+                    } else {
+                        showAlert('danger', data.message);
+                    }
+                })
+                .catch(error => {
+                    showAlert('danger', 'Error deleting payment method');
+                });
+            }
+        }
+
+        // Verify Payment
+        function verifyPayment(paymentId) {
+            document.getElementById('verifyPaymentId').value = paymentId;
+            new bootstrap.Modal(document.getElementById('verifyPaymentModal')).show();
+        }
+
+        // Verify Payment Form
+        document.getElementById('verifyPaymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            fetch('/payments/verify-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...data, status: 'verified' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    location.reload();
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('danger', 'Error verifying payment');
+            });
+        });
+
+        // Reject Payment
+        function rejectPayment(paymentId) {
+            if (confirm('Are you sure you want to reject this payment?')) {
+                fetch('/payments/verify-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ paymentId, status: 'rejected' })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', data.message);
+                        location.reload();
+                    } else {
+                        showAlert('danger', data.message);
+                    }
+                })
+                .catch(error => {
+                    showAlert('danger', 'Error rejecting payment');
+                });
+            }
+        }
+
+        // Show Alert Function
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container-fluid').insertBefore(alertDiv, document.querySelector('.row'));
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html> 

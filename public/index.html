@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitara777 Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .redirect-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-card p-5 text-center">
+        <div class="mb-4">
+            <i class="fas fa-crown text-danger fs-1 pulse"></i>
+        </div>
+        
+        <h1 class="h2 mb-3 text-dark">
+            <strong>Sitara777 Admin Panel</strong>
+        </h1>
+        
+        <p class="text-muted mb-4">
+            Professional Satka Matka Management System<br>
+            <small>Real-time Firebase Integration</small>
+        </p>
+        
+        <div class="loading-spinner mx-auto mb-4"></div>
+        
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Notice:</strong> This is a static hosting deployment.<br>
+            For the full admin panel, access the Node.js server directly.
+        </div>
+        
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-server text-primary me-2"></i>
+                            Local Development Server
+                        </h5>
+                        <p class="card-text">Access the full admin panel with real-time features</p>
+                        <a href="http://localhost:3001" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt me-2"></i>
+                            Open Admin Panel
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-mobile-alt text-success me-2"></i>
+                            Flutter App Integration
+                        </h5>
+                        <p class="card-text">Real-time connected with Firebase</p>
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle me-1"></i>
+                            Live Integration Active
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 pt-3 border-top">
+            <h6 class="text-muted mb-3">Quick Access</h6>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="http://localhost:3001/dashboard" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-tachometer-alt me-1"></i>
+                    Dashboard
+                </a>
+                <a href="http://localhost:3001/users" class="btn btn-outline-info btn-sm">
+                    <i class="fas fa-users me-1"></i>
+                    Users
+                </a>
+                <a href="http://localhost:3001/withdrawals" class="btn btn-outline-warning btn-sm">
+                    <i class="fas fa-money-bill me-1"></i>
+                    Withdrawals
+                </a>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <small class="text-muted">
+                <i class="fas fa-shield-alt me-1"></i>
+                Secured with Firebase Authentication
+            </small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-redirect to local server if available
+        setTimeout(() => {
+            fetch('http://localhost:3001')
+                .then(() => {
+                    document.querySelector('.alert-info').innerHTML = 
+                        '<i class="fas fa-check-circle me-2"></i><strong>Server Detected:</strong> Redirecting to admin panel...';
+                    setTimeout(() => {
+                        window.location.href = 'http://localhost:3001';
+                    }, 2000);
+                })
+                .catch(() => {
+                    document.querySelector('.loading-spinner').style.display = 'none';
+                    document.querySelector('.alert-info').innerHTML = 
+                        '<i class="fas fa-exclamation-triangle me-2"></i><strong>Server Offline:</strong> Please start the Node.js server for full functionality.';
+                });
+        }, 1000);
+    </script>
+</body>
+</html>

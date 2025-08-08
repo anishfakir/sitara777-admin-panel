@@ -1,0 +1,151 @@
+[
+{
+  "markets/kalyan": {
+    "name": "Kalyan",
+    "openTime": "11:00 AM",
+    "closeTime": "01:00 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/kalyan_night": {
+    "name": "Kalyan Night",
+    "openTime": "09:25 PM",
+    "closeTime": "11:25 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/milan_day": {
+    "name": "Milan Day",
+    "openTime": "01:45 PM",
+    "closeTime": "03:45 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/milan_night": {
+    "name": "Milan Night",
+    "openTime": "07:00 PM",
+    "closeTime": "09:00 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/rajdhani_day": {
+    "name": "Rajdhani Day",
+    "openTime": "03:00 PM",
+    "closeTime": "05:00 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/rajdhani_night": {
+    "name": "Rajdhani Night",
+    "openTime": "09:30 PM",
+    "closeTime": "11:30 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/time_bazar": {
+    "name": "Time Bazar",
+    "openTime": "05:00 PM",
+    "closeTime": "06:30 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/main_bazar": {
+    "name": "Main Bazar",
+    "openTime": "09:35 PM",
+    "closeTime": "12:05 AM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/madhur_day": {
+    "name": "Madhur Day",
+    "openTime": "01:00 PM",
+    "closeTime": "02:00 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/madhur_night": {
+    "name": "Madhur Night",
+    "openTime": "09:00 PM",
+    "closeTime": "10:30 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/sriday": {
+    "name": "Sri Day",
+    "openTime": "12:15 PM",
+    "closeTime": "01:15 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/srinight": {
+    "name": "Sri Night",
+    "openTime": "10:15 PM",
+    "closeTime": "11:45 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/supreme_day": {
+    "name": "Supreme Day",
+    "openTime": "02:00 PM",
+    "closeTime": "03:30 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/supreme_night": {
+    "name": "Supreme Night",
+    "openTime": "08:30 PM",
+    "closeTime": "10:00 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/ghatkopar_day": {
+    "name": "Ghatkopar Day",
+    "openTime": "11:30 AM",
+    "closeTime": "12:30 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/ghatkopar_night": {
+    "name": "Ghatkopar Night",
+    "openTime": "08:00 PM",
+    "closeTime": "09:30 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/worli_day": {
+    "name": "Worli Day",
+    "openTime": "10:30 AM",
+    "closeTime": "11:30 AM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/worli_night": {
+    "name": "Worli Night",
+    "openTime": "09:00 PM",
+    "closeTime": "10:15 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/rajlaxmi_day": {
+    "name": "Rajlaxmi Day",
+    "openTime": "01:30 PM",
+    "closeTime": "02:45 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/rajlaxmi_night": {
+    "name": "Rajlaxmi Night",
+    "openTime": "10:00 PM",
+    "closeTime": "11:15 PM",
+    "status": "closed",
+    "result": "*"
+  },
+  "markets/sitara777_bazar": {
+    "name": "Sitara777 Bazar",
+    "openTime": "12:00 PM",
+    "closeTime": "02:00 PM",
+    "status": "closed",
+    "result": "*"
+  }
+}
+]

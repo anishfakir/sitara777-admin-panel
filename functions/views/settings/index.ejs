@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Settings - Sitara777 Admin Panel</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-crown text-danger"></i> Sitara777</h3>
+                <p class="text-muted">Admin Panel</p>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="/dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/bazaar">
+                        <i class="fas fa-store"></i>
+                        Bazaar Management
+                    </a>
+                </li>
+                <li>
+                    <a href="/results">
+                        <i class="fas fa-chart-line"></i>
+                        Game Results
+                    </a>
+                </li>
+                <li>
+                    <a href="/users">
+                        <i class="fas fa-users"></i>
+                        Users Management
+                    </a>
+                </li>
+                <li>
+                    <a href="/withdrawals">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Withdrawal Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="/payments">
+                        <i class="fas fa-credit-card"></i>
+                        Payment Management
+                    </a>
+                </li>
+                <li>
+                    <a href="/notifications">
+                        <i class="fas fa-bell"></i>
+                        Push Notifications
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/settings">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Header -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-outline-danger">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <div class="navbar-nav ms-auto">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i>
+                                <%= user ? user.username : 'Admin' %>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/auth/change-password">
+                                    <i class="fas fa-key"></i> Change Password
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/auth/logout">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2><i class="fas fa-cog text-danger"></i> App Settings</h2>
+                        </div>
+
+                        <!-- Settings Tabs -->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="list-group" id="settingsTabs" role="tablist">
+                                    <a class="list-group-item list-group-item-action active" id="general-tab" data-bs-toggle="list" href="#general" role="tab">
+                                        <i class="fas fa-cog"></i> General Settings
+                                    </a>
+                                    <a class="list-group-item list-group-item-action" id="maintenance-tab" data-bs-toggle="list" href="#maintenance" role="tab">
+                                        <i class="fas fa-tools"></i> Maintenance Mode
+                                    </a>
+                                    <a class="list-group-item list-group-item-action" id="backup-tab" data-bs-toggle="list" href="#backup" role="tab">
+                                        <i class="fas fa-database"></i> Backup & Restore
+                                    </a>
+                                    <a class="list-group-item list-group-item-action" id="security-tab" data-bs-toggle="list" href="#security" role="tab">
+                                        <i class="fas fa-shield-alt"></i> Security
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="tab-content" id="settingsTabContent">
+                                    <!-- General Settings -->
+                                    <div class="tab-pane fade show active" id="general" role="tabpanel">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0"><i class="fas fa-cog"></i> General Settings</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form id="generalSettingsForm">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">App Name</label>
+                                                                <input type="text" class="form-control" name="appName" value="<%= settings.appName || 'Sitara777' %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">App Version</label>
+                                                                <input type="text" class="form-control" name="appVersion" value="<%= settings.appVersion || '1.0.0' %>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Support Email</label>
+                                                                <input type="email" class="form-control" name="supportEmail" value="<%= settings.supportEmail || '' %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Support Phone</label>
+                                                                <input type="tel" class="form-control" name="supportPhone" value="<%= settings.supportPhone || '' %>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">App Description</label>
+                                                        <textarea class="form-control" name="appDescription" rows="3"><%= settings.appDescription || '' %></textarea>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Minimum Withdrawal Amount</label>
+                                                                <input type="number" class="form-control" name="minWithdrawal" value="<%= settings.minWithdrawal || 100 %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Maximum Withdrawal Amount</label>
+                                                                <input type="number" class="form-control" name="maxWithdrawal" value="<%= settings.maxWithdrawal || 10000 %>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-danger">Save General Settings</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Maintenance Mode -->
+                                    <div class="tab-pane fade" id="maintenance" role="tabpanel">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0"><i class="fas fa-tools"></i> Maintenance Mode</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="alert alert-warning">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                    <strong>Warning:</strong> Enabling maintenance mode will make the app unavailable to users.
+                                                </div>
+                                                <form id="maintenanceForm">
+                                                    <div class="mb-3">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" name="maintenanceMode" id="maintenanceMode" <%= settings.maintenanceMode ? 'checked' : '' %>>
+                                                            <label class="form-check-label" for="maintenanceMode">
+                                                                Enable Maintenance Mode
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Maintenance Message</label>
+                                                        <textarea class="form-control" name="maintenanceMessage" rows="3" placeholder="App is under maintenance. Please try again later."><%= settings.maintenanceMessage || '' %></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Estimated Duration (hours)</label>
+                                                        <input type="number" class="form-control" name="maintenanceDuration" value="<%= settings.maintenanceDuration || 2 %>" min="1">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-warning">Update Maintenance Settings</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Backup & Restore -->
+                                    <div class="tab-pane fade" id="backup" role="tabpanel">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0"><i class="fas fa-database"></i> Backup & Restore</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="card bg-primary text-white">
+                                                            <div class="card-body text-center">
+                                                                <i class="fas fa-download fa-3x mb-3"></i>
+                                                                <h5>Create Backup</h5>
+                                                                <p>Create a complete backup of all data</p>
+                                                                <button class="btn btn-light" onclick="createBackup()">
+                                                                    <i class="fas fa-download"></i> Create Backup
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="card bg-success text-white">
+                                                            <div class="card-body text-center">
+                                                                <i class="fas fa-upload fa-3x mb-3"></i>
+                                                                <h5>Restore Backup</h5>
+                                                                <p>Restore data from a backup file</p>
+                                                                <button class="btn btn-light" onclick="document.getElementById('restoreFile').click()">
+                                                                    <i class="fas fa-upload"></i> Choose File
+                                                                </button>
+                                                                <input type="file" id="restoreFile" accept=".json" style="display: none;" onchange="restoreBackup(this)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4">
+                                                    <h6>Recent Backups</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-sm">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Size</th>
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="backupsList">
+                                                                <!-- Backups will be loaded here -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Security -->
+                                    <div class="tab-pane fade" id="security" role="tabpanel">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0"><i class="fas fa-shield-alt"></i> Security Settings</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form id="securityForm">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Session Timeout (minutes)</label>
+                                                        <input type="number" class="form-control" name="sessionTimeout" value="<%= settings.sessionTimeout || 30 %>" min="5">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Max Login Attempts</label>
+                                                        <input type="number" class="form-control" name="maxLoginAttempts" value="<%= settings.maxLoginAttempts || 5 %>" min="3">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Lockout Duration (minutes)</label>
+                                                        <input type="number" class="form-control" name="lockoutDuration" value="<%= settings.lockoutDuration || 15 %>" min="5">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" name="enableTwoFactor" id="enableTwoFactor" <%= settings.enableTwoFactor ? 'checked' : '' %>>
+                                                            <label class="form-check-label" for="enableTwoFactor">
+                                                                Enable Two-Factor Authentication
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-danger">Save Security Settings</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <script>
+        // General Settings Form
+        document.getElementById('generalSettingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            fetch('/settings/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...data, type: 'general' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('danger', 'Error updating general settings');
+            });
+        });
+
+        // Maintenance Form
+        document.getElementById('maintenanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            data.maintenanceMode = formData.get('maintenanceMode') === 'on';
+
+            fetch('/settings/toggle-maintenance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('danger', 'Error updating maintenance settings');
+            });
+        });
+
+        // Security Form
+        document.getElementById('securityForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            data.enableTwoFactor = formData.get('enableTwoFactor') === 'on';
+
+            fetch('/settings/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...data, type: 'security' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                showAlert('danger', 'Error updating security settings');
+            });
+        });
+
+        // Create Backup
+        function createBackup() {
+            if (confirm('Are you sure you want to create a backup? This may take a few moments.')) {
+                fetch('/settings/backup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', data.message);
+                        loadBackups();
+                    } else {
+                        showAlert('danger', data.message);
+                    }
+                })
+                .catch(error => {
+                    showAlert('danger', 'Error creating backup');
+                });
+            }
+        }
+
+        // Restore Backup
+        function restoreBackup(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (confirm('Are you sure you want to restore from this backup? This will overwrite current data.')) {
+                const formData = new FormData();
+                formData.append('backupFile', file);
+
+                fetch('/settings/restore', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', data.message);
+                        setTimeout(() => location.reload(), 2000);
+                    } else {
+                        showAlert('danger', data.message);
+                    }
+                })
+                .catch(error => {
+                    showAlert('danger', 'Error restoring backup');
+                });
+            }
+        }
+
+        // Load Backups
+        function loadBackups() {
+            fetch('/settings/backups')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('backupsList');
+                    tbody.innerHTML = '';
+                    
+                    data.backups.forEach(backup => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${new Date(backup.createdAt).toLocaleString()}</td>
+                            <td>${backup.size}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="downloadBackup('${backup.id}')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteBackup('${backup.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            });
+        }
+
+        // Download Backup
+        function downloadBackup(backupId) {
+            window.open(`/settings/backups/${backupId}/download`, '_blank');
+        }
+
+        // Delete Backup
+        function deleteBackup(backupId) {
+            if (confirm('Are you sure you want to delete this backup?')) {
+                fetch('/settings/backups/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ backupId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', data.message);
+                        loadBackups();
+                    } else {
+                        showAlert('danger', data.message);
+                    }
+                })
+                .catch(error => {
+                    showAlert('danger', 'Error deleting backup');
+                });
+            }
+        }
+
+        // Load backups on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBackups();
+        });
+
+        // Show Alert Function
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container-fluid').insertBefore(alertDiv, document.querySelector('.row'));
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html> 

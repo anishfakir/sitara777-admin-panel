@@ -1,0 +1,38 @@
+// Temporary permissive Firestore rules for testing
+// ⚠️ IMPORTANT: These are for development only!
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read/write access to all documents for authenticated users
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Allow read access to specific collections for unauthenticated users (for registration)
+    match /users/{userId} {
+      allow read, write: if true; // Temporary - allow all access for testing
+    }
+    
+    match /wallets/{walletId} {
+      allow read, write: if true; // Temporary - allow all access for testing  
+    }
+    
+    match /transactions/{transactionId} {
+      allow read, write: if true; // Temporary - allow all access for testing
+    }
+    
+    match /withdrawals/{withdrawalId} {
+      allow read, write: if true; // Temporary - allow all access for testing
+    }
+  }
+}
+
+// TO APPLY THESE RULES:
+// 1. Go to Firebase Console: https://console.firebase.google.com/
+// 2. Select your project: sitara777-47f86
+// 3. Go to Firestore Database > Rules
+// 4. Copy and paste the rules above
+// 5. Click "Publish"
+//
+// ⚠️ REMEMBER: Change these to secure rules before production!

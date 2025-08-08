@@ -1,0 +1,212 @@
+name: sitara777_app
+description: Sitara777 Admin Panel Mobile App
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Navigation
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  shimmer: ^3.0.0
+  lottie: ^2.7.0
+
+  # State Management
+  provider: ^6.1.1
+  get: ^4.6.6
+
+  # Network & API
+  http: ^1.1.0
+  dio: ^5.4.0
+  connectivity_plus: ^5.0.2
+  internet_connection_checker: ^1.0.0+1
+
+  # Firebase
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  firebase_storage: ^11.5.6
+  firebase_messaging: ^14.7.10
+  firebase_analytics: ^10.7.4
+  firebase_crashlytics: ^3.4.8
+
+  # Local Storage
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # JSON & Serialization
+  json_annotation: ^4.8.1
+  json_serializable: ^6.7.1
+
+  # Utils
+  intl: ^0.18.1
+  uuid: ^4.2.1
+  crypto: ^3.0.3
+  device_info_plus: ^9.1.1
+  package_info_plus: ^4.2.0
+  url_launcher: ^6.2.2
+  permission_handler: ^11.1.0
+
+  # UI Components
+  flutter_staggered_grid_view: ^0.7.0
+  pull_to_refresh: ^2.0.0
+  infinite_scroll_pagination: ^4.0.0
+  flutter_slidable: ^3.0.1
+
+  # Charts & Graphs
+  fl_chart: ^0.65.0
+  syncfusion_flutter_charts: ^23.2.7
+
+  # Notifications
+  flutter_local_notifications: ^16.3.0
+  flutter_app_badger: ^1.5.0
+
+  # Biometric Authentication
+  local_auth: ^2.1.7
+  local_auth_android: ^1.0.35
+
+  # QR Code & Barcode
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^3.5.5
+
+  # File Handling
+  file_picker: ^6.1.1
+  image_picker: ^1.0.4
+  image_cropper: ^5.0.1
+
+  # Social Media
+  share_plus: ^7.2.1
+  flutter_share: ^2.0.0
+
+  # WebView
+  webview_flutter: ^4.4.2
+
+  # Maps & Location
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+
+  # Audio & Video
+  audioplayers: ^5.2.1
+  video_player: ^2.8.1
+
+  # Testing
+  flutter_test:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code Generation
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+  hive_generator: ^2.0.1
+
+  # Linting & Formatting
+  flutter_lints: ^3.0.1
+  custom_lint: ^0.5.7
+  dart_code_metrics: ^5.7.6
+
+  # Testing
+  mockito: ^5.4.4
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+    - assets/fonts/
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+
+  # Platform-specific configurations
+  android:
+    package: com.sitara777.admin
+    versionCode: 1
+    versionName: "1.0.0"
+    minSdkVersion: 21
+    targetSdkVersion: 33
+    compileSdkVersion: 33
+
+  ios:
+    bundleId: com.sitara777.admin
+    buildNumber: "1"
+    version: "1.0.0"
+    deploymentTarget: "12.0"
+
+# Firebase configuration
+firebase:
+  project: sitara777admin
+  android:
+    package: com.sitara777.admin
+    googleServicesFile: android/app/google-services.json
+  ios:
+    bundleId: com.sitara777.admin
+    googleServicesFile: ios/Runner/GoogleService-Info.plist
+
+# App signing configuration
+android:
+  signingConfigs:
+    release:
+      keyAlias: sitara777
+      keyPassword: sitara777@007
+      storeFile: android/app/sitara777.keystore
+      storePassword: sitara777@007
+
+  buildTypes:
+    release:
+      signingConfig: signingConfigs.release
+      minifyEnabled: true
+      shrinkResources: true
+      proguardFiles:
+        - android/app/proguard-rules.pro
+
+# iOS configuration
+ios:
+  deploymentTarget: "12.0"
+  buildNumber: "1"
+  version: "1.0.0"
+
+# Web configuration
+web:
+  index: web/index.html
+  baseHref: /
+  favicon: web/favicon.png
+  manifest: web/manifest.json
+
+# Desktop configuration
+windows:
+  runner: "flutter_windows_runner"
+  buildNumber: "1"
+  version: "1.0.0"
+
+macos:
+  runner: "flutter_macos_runner"
+  buildNumber: "1"
+  version: "1.0.0"
+
+linux:
+  runner: "flutter_linux_runner"
+  buildNumber: "1"
+  version: "1.0.0" 

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Sitara777 Admin Panel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-crown"></i>
+                    <span>Sitara777</span>
+                </div>
+                <div class="admin-panel">Admin Panel</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/bazaar" class="nav-item">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Bazaar Management</span>
+                </a>
+                <a href="/results" class="nav-item">
+                    <i class="fas fa-list"></i>
+                    <span>Game Results</span>
+                </a>
+                <a href="/users" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Users Management</span>
+                </a>
+                <a href="/withdrawals" class="nav-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Withdrawal Requests</span>
+                </a>
+                <a href="/payments" class="nav-item">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payment Management</span>
+                </a>
+                <a href="/notifications" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Push Notifications</span>
+                </a>
+                <a href="/settings" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="/realtime-db" class="nav-item active">
+                    <i class="fas fa-database"></i>
+                    <span>Real-time Database</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1><i class="fas fa-database"></i> Real-time Database</h1>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <i class="fas fa-user"></i>
+                        <span><%= user.username %></span>
+                    </div>
+                    <a href="/auth/logout" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </header>
+
+            <!-- Flash Messages -->
+            <% if (messages.success) { %>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <%= messages.success %>
+                </div>
+            <% } %>
+            <% if (messages.error) { %>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <%= messages.error %>
+                </div>
+            <% } %>
+
+            <!-- RTDB Actions -->
+            <div class="actions-bar">
+                <button class="btn btn-primary" onclick="syncRTDB()">
+                    <i class="fas fa-sync"></i> Sync with Firestore
+                </button>
+                <button class="btn btn-secondary" onclick="exportRTDB()">
+                    <i class="fas fa-download"></i> Export to JSON
+                </button>
+                <button class="btn btn-info" onclick="viewRTDBData()">
+                    <i class="fas fa-eye"></i> View RTDB Data
+                </button>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><%= statistics.total_bazaars || 0 %></h3>
+                        <p>Total Bazaars</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><%= statistics.total_users || 0 %></h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><%= statistics.total_withdrawals || 0 %></h3>
+                        <p>Total Withdrawals</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>₹<%= statistics.total_wallet_balance || 0 %></h3>
+                        <p>Total Wallet Balance</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RTDB Data Sections -->
+            <div class="rtdb-sections">
+                <!-- Bazaars Section -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3><i class="fas fa-shopping-bag"></i> Bazaars</h3>
+                        <span class="count"><%= Object.keys(rtdbData?.bazaars || {}).length %> items</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="data-preview">
+                            <% if (rtdbData?.bazaars) { %>
+                                <% Object.entries(rtdbData.bazaars).slice(0, 5).forEach(([id, bazaar]) => { %>
+                                    <div class="data-item">
+                                        <strong><%= bazaar.name %></strong>
+                                        <span class="status <%= bazaar.isOpen ? 'active' : 'inactive' %>">
+                                            <%= bazaar.isOpen ? 'Open' : 'Closed' %>
+                                        </span>
+                                        <span class="result"><%= bazaar.result || '*' %></span>
+                                    </div>
+                                <% }) %>
+                                <% if (Object.keys(rtdbData.bazaars).length > 5) { %>
+                                    <div class="data-item more">
+                                        <em>... and <%= Object.keys(rtdbData.bazaars).length - 5 %> more</em>
+                                    </div>
+                                <% } %>
+                            <% } else { %>
+                                <div class="data-item">
+                                    <em>No bazaars found in RTDB</em>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3><i class="fas fa-users"></i> Users</h3>
+                        <span class="count"><%= Object.keys(rtdbData?.users || {}).length %> items</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="data-preview">
+                            <% if (rtdbData?.users) { %>
+                                <% Object.entries(rtdbData.users).slice(0, 5).forEach(([id, user]) => { %>
+                                    <div class="data-item">
+                                        <strong><%= user.name %></strong>
+                                        <span class="mobile"><%= user.mobile %></span>
+                                        <span class="wallet">₹<%= user.wallet || 0 %></span>
+                                    </div>
+                                <% }) %>
+                                <% if (Object.keys(rtdbData.users).length > 5) { %>
+                                    <div class="data-item more">
+                                        <em>... and <%= Object.keys(rtdbData.users).length - 5 %> more</em>
+                                    </div>
+                                <% } %>
+                            <% } else { %>
+                                <div class="data-item">
+                                    <em>No users found in RTDB</em>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3><i class="fas fa-list"></i> Results</h3>
+                        <span class="count"><%= Object.keys(rtdbData?.results || {}).length %> items</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="data-preview">
+                            <% if (rtdbData?.results) { %>
+                                <% Object.entries(rtdbData.results).slice(0, 5).forEach(([id, result]) => { %>
+                                    <div class="data-item">
+                                        <strong><%= result.bazaarName %></strong>
+                                        <span class="date"><%= result.date %></span>
+                                        <span class="result"><%= result.open %>-<%= result.close %></span>
+                                    </div>
+                                <% }) %>
+                                <% if (Object.keys(rtdbData.results).length > 5) { %>
+                                    <div class="data-item more">
+                                        <em>... and <%= Object.keys(rtdbData.results).length - 5 %> more</em>
+                                    </div>
+                                <% } %>
+                            <% } else { %>
+                                <div class="data-item">
+                                    <em>No results found in RTDB</em>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Withdrawals Section -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3><i class="fas fa-money-bill-wave"></i> Withdrawals</h3>
+                        <span class="count"><%= Object.keys(rtdbData?.withdrawals || {}).length %> items</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="data-preview">
+                            <% if (rtdbData?.withdrawals) { %>
+                                <% Object.entries(rtdbData.withdrawals).slice(0, 5).forEach(([id, withdrawal]) => { %>
+                                    <div class="data-item">
+                                        <strong>₹<%= withdrawal.amount %></strong>
+                                        <span class="status <%= withdrawal.status %>">
+                                            <%= withdrawal.status %>
+                                        </span>
+                                        <span class="upi"><%= withdrawal.upiId %></span>
+                                    </div>
+                                <% }) %>
+                                <% if (Object.keys(rtdbData.withdrawals).length > 5) { %>
+                                    <div class="data-item more">
+                                        <em>... and <%= Object.keys(rtdbData.withdrawals).length - 5 %> more</em>
+                                    </div>
+                                <% } %>
+                            <% } else { %>
+                                <div class="data-item">
+                                    <em>No withdrawals found in RTDB</em>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RTDB Data Modal -->
+    <div id="rtdbModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Real-time Database Data</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <pre id="rtdbData"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Sync RTDB with Firestore
+        function syncRTDB() {
+            if (confirm('Are you sure you want to sync RTDB with Firestore?')) {
+                fetch('/realtime-db/sync', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    }
+                });
+            }
+        }
+
+        // Export RTDB to JSON
+        function exportRTDB() {
+            if (confirm('Are you sure you want to export RTDB data to JSON?')) {
+                fetch('/realtime-db/export', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    }
+                });
+            }
+        }
+
+        // View RTDB Data
+        function viewRTDBData() {
+            fetch('/realtime-db/data')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('rtdbData').textContent = JSON.stringify(data.data, null, 2);
+                        document.getElementById('rtdbModal').style.display = 'block';
+                    } else {
+                        alert('Failed to load RTDB data');
+                    }
+                });
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('rtdbModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('rtdbModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html> 

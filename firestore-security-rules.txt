@@ -1,0 +1,32 @@
+// Firestore Security Rules for Sitara777
+// Copy and paste these rules into Firebase Console > Firestore Database > Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read access to bazaars collection for everyone
+    // Allow write access only to authenticated admin users
+    match /bazaars/{document} {
+      allow read: if true;  // Public read access for Flutter app
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // Allow read/write access to results collection for admin users
+    match /results/{document} {
+      allow read: if true;  // Public read access
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+    
+    // For development/testing - you can make this more restrictive in production
+    match /{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
+
+// Instructions to apply these rules:
+// 1. Go to https://console.firebase.google.com/project/sitara777-47f86/firestore/rules
+// 2. Replace the existing rules with the rules above
+// 3. Click "Publish" to apply the changes
+// 4. Your Flutter app should now be able to read bazaar data

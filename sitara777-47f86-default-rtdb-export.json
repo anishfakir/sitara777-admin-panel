@@ -1,0 +1,285 @@
+{
+  "bazaars": {
+    "markets_kalyan": {
+      "name": "Kalyan",
+      "openTime": "11:00 AM",
+      "closeTime": "01:00 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": true,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_kalyan_night": {
+      "name": "Kalyan Night",
+      "openTime": "09:25 PM",
+      "closeTime": "11:25 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": true,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_milan_day": {
+      "name": "Milan Day",
+      "openTime": "01:45 PM",
+      "closeTime": "03:45 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": true,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_milan_night": {
+      "name": "Milan Night",
+      "openTime": "07:00 PM",
+      "closeTime": "09:00 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_rajdhani_day": {
+      "name": "Rajdhani Day",
+      "openTime": "03:00 PM",
+      "closeTime": "05:00 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_rajdhani_night": {
+      "name": "Rajdhani Night",
+      "openTime": "09:30 PM",
+      "closeTime": "11:30 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_time_bazar": {
+      "name": "Time Bazar",
+      "openTime": "05:00 PM",
+      "closeTime": "06:30 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": true,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_main_bazar": {
+      "name": "Main Bazar",
+      "openTime": "09:35 PM",
+      "closeTime": "12:05 AM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": true,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_madhur_day": {
+      "name": "Madhur Day",
+      "openTime": "01:00 PM",
+      "closeTime": "02:00 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_madhur_night": {
+      "name": "Madhur Night",
+      "openTime": "09:00 PM",
+      "closeTime": "10:30 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_sriday": {
+      "name": "Sri Day",
+      "openTime": "12:15 PM",
+      "closeTime": "01:15 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_srinight": {
+      "name": "Sri Night",
+      "openTime": "10:15 PM",
+      "closeTime": "11:45 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_supreme_day": {
+      "name": "Supreme Day",
+      "openTime": "02:00 PM",
+      "closeTime": "03:30 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_supreme_night": {
+      "name": "Supreme Night",
+      "openTime": "08:30 PM",
+      "closeTime": "10:00 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_ghatkopar_day": {
+      "name": "Ghatkopar Day",
+      "openTime": "11:30 AM",
+      "closeTime": "12:30 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_ghatkopar_night": {
+      "name": "Ghatkopar Night",
+      "openTime": "08:00 PM",
+      "closeTime": "09:30 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_worli_day": {
+      "name": "Worli Day",
+      "openTime": "10:30 AM",
+      "closeTime": "11:30 AM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_worli_night": {
+      "name": "Worli Night",
+      "openTime": "09:00 PM",
+      "closeTime": "10:15 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_rajlaxmi_day": {
+      "name": "Rajlaxmi Day",
+      "openTime": "01:30 PM",
+      "closeTime": "02:45 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_rajlaxmi_night": {
+      "name": "Rajlaxmi Night",
+      "openTime": "10:00 PM",
+      "closeTime": "11:15 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": false,
+      "last_updated": "2024-01-01T00:00:00Z"
+    },
+    "markets_sitara777_bazar": {
+      "name": "Sitara777 Bazar",
+      "openTime": "12:00 PM",
+      "closeTime": "02:00 PM",
+      "isOpen": false,
+      "result": "*",
+      "status": "closed",
+      "isPopular": true,
+      "last_updated": "2024-01-01T00:00:00Z"
+    }
+  },
+  "users": {
+    "demo_user_1": {
+      "name": "Demo User 1",
+      "mobile": "+91-9876543210",
+      "wallet": 5000,
+      "isBlocked": false,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "lastLogin": "2024-01-01T00:00:00Z"
+    },
+    "demo_user_2": {
+      "name": "Demo User 2",
+      "mobile": "+91-9876543211",
+      "wallet": 2500,
+      "isBlocked": false,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "lastLogin": "2024-01-01T00:00:00Z"
+    }
+  },
+  "results": {
+    "kalyan_2024-01-01": {
+      "bazaarName": "Kalyan",
+      "date": "2024-01-01",
+      "open": "123",
+      "close": "456",
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    "milan_day_2024-01-01": {
+      "bazaarName": "Milan Day",
+      "date": "2024-01-01",
+      "open": "789",
+      "close": "012",
+      "createdAt": "2024-01-01T00:00:00Z"
+    }
+  },
+  "withdrawals": {
+    "withdrawal_1": {
+      "userId": "demo_user_1",
+      "amount": 1000,
+      "status": "pending",
+      "requestedAt": "2024-01-01T00:00:00Z",
+      "processedAt": null,
+      "upiId": "user@upi"
+    },
+    "withdrawal_2": {
+      "userId": "demo_user_2",
+      "amount": 500,
+      "status": "approved",
+      "requestedAt": "2024-01-01T00:00:00Z",
+      "processedAt": "2024-01-01T01:00:00Z",
+      "upiId": "user2@upi"
+    }
+  },
+  "app_settings": {
+    "version": "1.0.0",
+    "maintenance_mode": false,
+    "withdrawal_limit": 10000,
+    "min_withdrawal": 100,
+    "max_withdrawal": 50000,
+    "app_name": "Sitara777",
+    "support_contact": "+91-9876543210",
+    "last_updated": "2024-01-01T00:00:00Z"
+  },
+  "statistics": {
+    "total_users": 2,
+    "total_bazaars": 21,
+    "total_withdrawals": 2,
+    "total_wallet_balance": 7500,
+    "active_bazaars": 0,
+    "pending_withdrawals": 1,
+    "last_updated": "2024-01-01T00:00:00Z"
+  }
+}
