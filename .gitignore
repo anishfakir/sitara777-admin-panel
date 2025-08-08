@@ -6,6 +6,7 @@ node_modules
 # Firebase credentials
 *firebase-adminsdk*.json
 *service-account*.json
+serviceAccountKey.json
 
 # API keys and secrets
 config/secrets.js
