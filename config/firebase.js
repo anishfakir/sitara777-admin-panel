@@ -76,10 +76,9 @@ try {
   }
 }
 
-// Initialize messaging service if available
-let messaging;
+// Initialize messaging service if available (already declared above)
 try {
-  if (!isDemoMode && admin.apps.length > 0) {
+  if (!isDemoMode && admin.apps.length > 0 && !messaging) {
     messaging = admin.messaging();
   }
 } catch (messagingError) {

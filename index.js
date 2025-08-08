@@ -110,12 +110,5 @@ app.listen(PORT, () => {
   console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
-module.exports = app; 
-// Import real-time sync service
-// const realtimeSyncService = require("./services/realtime-sync");
-
-
-  // Start real-time sync service
-  // realtimeSyncService.start();
-  console.log('?? Real-time sync service started');
+module.exports = app;
 
