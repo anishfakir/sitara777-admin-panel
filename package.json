@@ -50,10 +50,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sitara777/admin-panel.git"
+    "url": "git+https://github.com/anishfakir/sitara777-admin-panel.git"
   },
   "bugs": {
-    "url": "https://github.com/sitara777/admin-panel/issues"
+    "url": "https://github.com/anishfakir/sitara777-admin-panel/issues"
   },
-  "homepage": "https://github.com/sitara777/admin-panel#readme"
+  "homepage": "https://github.com/anishfakir/sitara777-admin-panel#readme"
 }
